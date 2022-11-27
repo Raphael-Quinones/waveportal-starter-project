@@ -32,10 +32,44 @@ const findMetaMaskAccount = async () => {
 }
 export default function App() {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [allWaves, setAllWaves] = useState([]);
 
-  const contractAddress = "0x2854b42f7857918D77426A2CC97De0862Da4F352";
+  const contractAddress = "0x5de9f34E154408d275016Cb074A99aD768842814";
 
   const contractABI = abi.abi
+
+  const getAllWaves = async () => {
+    try{
+      const { ethereum } = window;
+      if(ethereum){
+
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        const waves = await wavePortalContract.getAllWaves();
+
+        let wavesCleaned = [];
+        waves.forEach(wave => {
+          wavesCleaned.push({
+            address: wave.waver,
+            timestamp: new Date(wave.timestamp * 1000),
+            message: wave.message
+          });
+        });
+
+        setAllWaves(wavesCleaned);
+
+
+
+      } else {
+        console.log("Ethereum object doesn't exist!")
+      }
+
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const connectWallet = async () => {
     try{
@@ -68,7 +102,7 @@ export default function App() {
         let count = await wavePortalContract.getTotalWaves();
         console.log("Retrieved total wave count...", count.toNumber());
 
-        const waveTxn = await wavePortalContract.wave();
+        const waveTxn = await wavePortalContract.wave("Some message");
         console.log("Mining...", waveTxn.hash);
 
         await waveTxn.wait();
@@ -84,10 +118,17 @@ export default function App() {
     }
   }
 
+  let displayWaves = () => {
+    
+  }
+
   useEffect( () => {
     const account = "";
     async function findMeta(){
       account = await findMetaMaskAccount();
+    }
+    async function getAllWav(){
+      await getAllWaves();
     }
 
     findMeta();
@@ -95,6 +136,8 @@ export default function App() {
     if(account !== null){
       setCurrentAccount(account);
     }
+
+    getAllWav();
   }, [])
 
   
@@ -120,6 +163,27 @@ export default function App() {
               Connect Wallet
             </button>
           )
+        }
+        {
+          <p>wave</p>
+        }
+        {
+          allWaves.map(wave =>{
+            return (<div>
+              {
+              //"" + converts object to string
+              }
+              <p>
+                {"" + wave.address}
+              </p>
+              <p>
+                {"" + wave.timestamp}
+              </p>
+              <p>
+                {"" + wave.message}
+              </p>
+            </div>)
+          })
         }
       </div>
     </div>
