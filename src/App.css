@@ -14,7 +14,7 @@
 
 .header {
   text-align: center;
-  font-size: 32px;
+  font-size: 50px;
   font-weight: 600;
 }
 
@@ -22,6 +22,8 @@
   text-align: center;
   color: gray;
   margin-top: 16px;
+
+  font-weight: bold;
 }
 
 .waveButton {
@@ -31,4 +33,34 @@
   border: 0;
   border-radius: 5px;
   
+}
+
+.messages{
+  border-style: solid;
+  border-radius: 10px;
+  padding: 10px 30px;;
+  margin: 10px;
+}
+
+.textMessage{
+  border-style: solid;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.waveButton{
+  font-family: 'Courier New';
+  font-weight: bold;
+}
+
+.message{
+}
+
+.timestamp{
+  font-size: 10px;
+}
+
+.from{
+  font-size: 10px;
 }

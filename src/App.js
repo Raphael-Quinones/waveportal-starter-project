@@ -35,7 +35,7 @@ export default function App() {
   const [allWaves, setAllWaves] = useState([]);
   const [message, setMessage] = useState('');
 
-  const contractAddress = "0x825D546724D078ce4d4f5812F0EE7f6439D6442E";
+  const contractAddress = "0x046eafFD179100c46065A2b8e5AD895B1FEF4D98";
 
   const contractABI = abi.abi
 
@@ -163,17 +163,22 @@ export default function App() {
 
       <div className="dataContainer">
         <div className="header">
-        👋 Hey there!
+        glad you're alive
         </div>
 
         <div className="bio">
-          I'm Raphael Quinones and I made this twitter like web3 program where everyone can post what they want - but in just a single wall. Tell everyone what you want to say!
+          <p>This is a "Depressing things that happened to everyone" wall.</p>
+          <p>Write here some bad memories you haven't forgotten.</p>  
+          <p>A reason why you keep staring at nothingness. </p> 
+          <p>Or, a reason why you're feeling guilty. </p>
+          <p>Let it all out. </p>
+          <p>Tell us.</p> 
         </div>
 
-        <textarea placeholder = "What made you mad today?" className = "textMessage" onChange={captureMessage}></textarea>
+        <textarea placeholder = "What's that thing that makes you cry at night?" className = "textMessage" onChange={captureMessage}></textarea>
 
         <button className="waveButton" onClick={wave}>
-          Wave at Me
+          let everyone know
         </button>
 
         {
@@ -189,14 +194,14 @@ export default function App() {
               {
               //"" + converts object to string
               }
-              <p>
-                <b>From: </b> {"" + wave.address}
+              <p className = "message">
+              {"" + wave.message}
               </p>
-              <p>
+              <p className = "timestamp">
               <b>On: </b>{"" + wave.timestamp}
               </p>
-              <p>
-              <b>Message: </b>{"" + wave.message}
+              <p className = "from">
+              <b>From: </b> {"" + wave.address}
               </p>
             </div>)
           })
