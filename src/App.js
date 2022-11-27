@@ -33,6 +33,7 @@ const findMetaMaskAccount = async () => {
 export default function App() {
   const [currentAccount, setCurrentAccount] = useState("");
   const [allWaves, setAllWaves] = useState([]);
+  const [message, setMessage] = useState('');
 
   const contractAddress = "0x5de9f34E154408d275016Cb074A99aD768842814";
 
@@ -58,7 +59,7 @@ export default function App() {
           });
         });
 
-        setAllWaves(wavesCleaned);
+        setAllWaves(wavesCleaned.reverse());
 
 
 
@@ -102,7 +103,7 @@ export default function App() {
         let count = await wavePortalContract.getTotalWaves();
         console.log("Retrieved total wave count...", count.toNumber());
 
-        const waveTxn = await wavePortalContract.wave("Some message");
+        const waveTxn = await wavePortalContract.wave(message);
         console.log("Mining...", waveTxn.hash);
 
         await waveTxn.wait();
@@ -118,9 +119,11 @@ export default function App() {
     }
   }
 
-  let displayWaves = () => {
-    
+  function captureMessage(event){
+    setMessage(event.target.value);
   }
+
+
 
   useEffect( () => {
     const account = "";
@@ -153,6 +156,8 @@ export default function App() {
         I am farza and I worked on self-driving cars so that's pretty cool right? Connect your Ethereum wallet and wave at me!
         </div>
 
+        <textarea onChange={captureMessage}></textarea>
+
         <button className="waveButton" onClick={wave}>
           Wave at Me
         </button>
@@ -163,9 +168,6 @@ export default function App() {
               Connect Wallet
             </button>
           )
-        }
-        {
-          <p>wave</p>
         }
         {
           allWaves.map(wave =>{
