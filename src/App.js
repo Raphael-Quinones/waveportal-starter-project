@@ -35,7 +35,7 @@ export default function App() {
   const [allWaves, setAllWaves] = useState([]);
   const [message, setMessage] = useState('');
 
-  const contractAddress = "0x688A0E7f7368ec9CCD99FEDe931F3F7be2294B8E";
+  const contractAddress = "0x825D546724D078ce4d4f5812F0EE7f6439D6442E";
 
   const contractABI = abi.abi
 
@@ -138,6 +138,8 @@ export default function App() {
           message: message
         }
       ])
+      allWaves.reverse();
+
     }
 
     if(window.ethereum){
@@ -153,6 +155,8 @@ export default function App() {
     }
   }, [])
 
+  getAllWaves();
+
   
   return (
     <div className="mainContainer">
@@ -163,10 +167,10 @@ export default function App() {
         </div>
 
         <div className="bio">
-        I am farza and I worked on self-driving cars so that's pretty cool right? Connect your Ethereum wallet and wave at me!
+          I'm Raphael Quinones and I made this twitter like web3 program where everyone can post what they want - but in just a single wall. Tell everyone what you want to say!
         </div>
 
-        <textarea onChange={captureMessage}></textarea>
+        <textarea placeholder = "What made you mad today?" className = "textMessage" onChange={captureMessage}></textarea>
 
         <button className="waveButton" onClick={wave}>
           Wave at Me
@@ -181,18 +185,18 @@ export default function App() {
         }
         {
           allWaves.map(wave =>{
-            return (<div>
+            return (<div className="messages">
               {
               //"" + converts object to string
               }
               <p>
-                {"" + wave.address}
+                <b>From: </b> {"" + wave.address}
               </p>
               <p>
-                {"" + wave.timestamp}
+              <b>On: </b>{"" + wave.timestamp}
               </p>
               <p>
-                {"" + wave.message}
+              <b>Message: </b>{"" + wave.message}
               </p>
             </div>)
           })
