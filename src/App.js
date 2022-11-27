@@ -126,21 +126,31 @@ export default function App() {
 
 
   useEffect( () => {
-    const account = "";
-    async function findMeta(){
-      account = await findMetaMaskAccount();
-    }
-    async function getAllWav(){
-      await getAllWaves();
+    let wavePortalContract;
+
+    const onNewWave = (from, timestamp, message) => {
+      console.log("NewWave", from, timestamp, message);
+      setAllWaves(prevState =>[
+        ...prevState,
+        {
+          address: from,
+          timestamp: new Date(timestamp * 1000),
+          message: message
+        }
+      ])
     }
 
-    findMeta();
-    
-    if(account !== null){
-      setCurrentAccount(account);
+    if(window.ethereum){
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+
+      wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+      wavePortalContract.on("NewWave", onNewWave);
     }
 
-    getAllWav();
+    return () => {
+      wavePortalContract.off("NewWave", onNewWave);
+    }
   }, [])
 
   
